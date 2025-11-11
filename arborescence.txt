@@ -1,0 +1,83 @@
+Structure du dossier
+Le numéro de série du volume est 9C9D-9422
+C:.
+|   acces-refuse.php
+|   arborescence.txt
+|   arborescence_simple.bat
+|   catalogue.php
+|   client-inscription.php
+|   demande.php
+|   index.php
+|   login.php
+|   logout.php
+|   test-auth.php
+|   
++---.idea
+|       .gitignore
+|       modules.xml
+|       PGI-Automobile.iml
+|       php.xml
+|       vcs.xml
+|       workspace.xml
+|       
++---assets
+|   +---css
+|   |       style.css
+|   |       
+|   +---images
+|   |       cars
+|   |       
+|   \---js
+|           script.js
+|           
++---config
+|       auth.php
+|       database.php
+|       
++---includes
+|       footer.php
+|       functions.php
+|       header.php
+|       
++---modules
+|   +---admin
+|   |       ajouter-utilisateur.php
+|   |       logs.php
+|   |       modifier-utilisateur.php
+|   |       permissions.php
+|   |       utilisateurs.php
+|   |       
+|   +---clients
+|   |       ajouter.php
+|   |       liste.php
+|   |       mes-demandes.php
+|   |       modifier.php
+|   |       supprimer.php
+|   |       
+|   +---profil
+|   |       mon-profil.php
+|   |       
+|   +---statistiques
+|   |       dashboard.php
+|   |       
+|   +---stock
+|   |       alertes.php
+|   |       inventaire.php
+|   |       
+|   +---vehicules
+|   |       ajouter.php
+|   |       liste.php
+|   |       modifier.php
+|   |       supprimer.php
+|   |       
+|   \---ventes
+|           ajouter.php
+|           demandes-detail.php
+|           demandes-liste.php
+|           facture.php
+|           liste.php
+|           
+\---sql
+        database.sql
+        update_database_clients.sql
+        
