@@ -79,6 +79,41 @@ CREATE TABLE IF NOT EXISTS personnel (
 );
 
 -- ============================================
+-- TABLE DES CONGÉS (RH)
+-- ============================================
+CREATE TABLE IF NOT EXISTS conges (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    personnel_id INT NOT NULL,
+    type VARCHAR(30) DEFAULT 'CP',
+    date_debut DATE NOT NULL,
+    date_fin DATE NOT NULL,
+    statut ENUM('en_attente', 'approuve', 'refuse') DEFAULT 'en_attente',
+    commentaire TEXT NULL,
+    commentaire_gestion TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (personnel_id) REFERENCES personnel(id) ON DELETE CASCADE
+);
+
+-- ============================================
+-- TABLE DES BULLETINS DE PAIE
+-- ============================================
+CREATE TABLE IF NOT EXISTS bulletins_paie (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    personnel_id INT NOT NULL,
+    mois_reference DATE NOT NULL,
+    salaire_base DECIMAL(10,2) NOT NULL,
+    prime DECIMAL(10,2) DEFAULT 0,
+    deductions DECIMAL(10,2) DEFAULT 0,
+    net_a_payer DECIMAL(10,2) NOT NULL,
+    statut ENUM('brouillon', 'valide') DEFAULT 'brouillon',
+    notes TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (personnel_id) REFERENCES personnel(id) ON DELETE CASCADE
+);
+
+-- ============================================
 -- TABLE DES FOURNISSEURS
 -- ============================================
 CREATE TABLE IF NOT EXISTS fournisseurs (
@@ -101,7 +136,7 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     prenom VARCHAR(50) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'vendeur', 'gestionnaire_stock', 'comptable') DEFAULT 'vendeur',
+    role ENUM('admin', 'vendeur', 'gestionnaire_stock', 'comptable', 'rh', 'client') DEFAULT 'vendeur',
     statut ENUM('actif', 'inactif', 'suspendu') DEFAULT 'actif',
     avatar VARCHAR(255),
     telephone VARCHAR(20),
@@ -167,6 +202,19 @@ INSERT INTO personnel (nom, prenom, poste, salaire, email, telephone, date_embau
 ('Petit', 'Claire', 'Comptable', 3200, 'claire.petit@pgi-auto.com', '0689012345', '2020-09-01', 'actif');
 
 -- ============================================
+-- DONNÉES DE TEST - CONGÉS & PAIE
+-- ============================================
+INSERT INTO conges (personnel_id, type, date_debut, date_fin, statut, commentaire) VALUES
+(1, 'CP', '2024-07-15', '2024-07-19', 'approuve', 'Vacances été'),
+(2, 'RTT', '2024-08-02', '2024-08-02', 'en_attente', 'RTT ponctuel'),
+(3, 'Maladie', '2024-06-10', '2024-06-12', 'refuse', 'Certificat incomplet');
+
+INSERT INTO bulletins_paie (personnel_id, mois_reference, salaire_base, prime, deductions, net_a_payer, statut, notes) VALUES
+(1, '2024-05-01', 4500, 300, 150, 4650, 'valide', 'Prime objectifs Q1'),
+(2, '2024-05-01', 2500, 150, 0, 2650, 'valide', 'Prime sur ventes'),
+(3, '2024-05-01', 2800, 0, 120, 2680, 'brouillon', 'Retenue équipement');
+
+-- ============================================
 -- INSERTION DES DONNÉES DE TEST - FOURNISSEURS
 -- ============================================
 INSERT INTO fournisseurs (nom_entreprise, contact, email, telephone, adresse, specialite) VALUES
@@ -205,6 +253,10 @@ INSERT INTO utilisateurs (nom, prenom, email, password, role, statut, telephone,
 INSERT INTO utilisateurs (nom, prenom, email, password, role, statut, telephone, created_at) VALUES
 ('Petit', 'Claire', 'claire@pgi-auto.com', '$2y$10$.mIgK9IWFLkQztOzzFgnL.VpOfjUUQ9NkKX7jRN.KlmcfSWIIgGLe', 'comptable', 'actif', '0600000005', NOW());
 
+-- 6. RESPONSABLE RH - Emma Durand
+INSERT INTO utilisateurs (nom, prenom, email, password, role, statut, telephone, created_at) VALUES
+('Durand', 'Emma', 'emma@pgi-auto.com', '$2y$10$.mIgK9IWFLkQztOzzFgnL.VpOfjUUQ9NkKX7jRN.KlmcfSWIIgGLe', 'rh', 'actif', '0600000006', NOW());
+
 -- ============================================
 -- INSERTION DES PERMISSIONS
 -- ============================================
@@ -232,7 +284,16 @@ INSERT INTO permissions (role, module, action) VALUES
 ('admin', 'utilisateurs', 'create'),
 ('admin', 'utilisateurs', 'read'),
 ('admin', 'utilisateurs', 'update'),
-('admin', 'utilisateurs', 'delete');
+('admin', 'utilisateurs', 'delete'),
+('admin', 'rh', 'read'),
+('admin', 'rh', 'create'),
+('admin', 'rh', 'update'),
+('admin', 'conges', 'read'),
+('admin', 'conges', 'create'),
+('admin', 'conges', 'update'),
+('admin', 'paie', 'read'),
+('admin', 'paie', 'create'),
+('admin', 'paie', 'update');
 
 -- PERMISSIONS VENDEUR
 INSERT INTO permissions (role, module, action) VALUES
@@ -258,6 +319,18 @@ INSERT INTO permissions (role, module, action) VALUES
 ('comptable', 'statistiques', 'read'),
 ('comptable', 'clients', 'read');
 
+-- PERMISSIONS RH
+INSERT INTO permissions (role, module, action) VALUES
+('rh', 'rh', 'read'),
+('rh', 'rh', 'create'),
+('rh', 'rh', 'update'),
+('rh', 'conges', 'read'),
+('rh', 'conges', 'create'),
+('rh', 'conges', 'update'),
+('rh', 'paie', 'read'),
+('rh', 'paie', 'create'),
+('rh', 'paie', 'update');
+
 -- ============================================
 -- VÉRIFICATION DES UTILISATEURS CRÉÉS
 -- ============================================
@@ -274,6 +347,57 @@ SELECT
     statut as 'Statut'
 FROM utilisateurs
 ORDER BY id;
+
+-- ============================================
+-- 2. CRÉER LA TABLE DES DEMANDES D'ACHAT
+-- ============================================
+CREATE TABLE IF NOT EXISTS demandes_achat (
+                                              id INT PRIMARY KEY AUTO_INCREMENT,
+                                              vehicule_id INT NOT NULL,
+                                              client_id INT NULL,  -- NULL si demande par visiteur non inscrit
+                                              nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    telephone VARCHAR(20) NOT NULL,
+    message TEXT,
+    statut ENUM('en_attente', 'en_cours', 'acceptee', 'refusee', 'finalisee') DEFAULT 'en_attente',
+    notes_gestionnaire TEXT,  -- Notes privées du gestionnaire
+    traitee_par INT NULL,  -- ID du gestionnaire qui traite
+    date_traitement DATETIME NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (vehicule_id) REFERENCES vehicules(id) ON DELETE CASCADE,
+    FOREIGN KEY (client_id) REFERENCES utilisateurs(id) ON DELETE SET NULL,
+    FOREIGN KEY (traitee_par) REFERENCES utilisateurs(id) ON DELETE SET NULL
+    );
+
+-- ============================================
+-- 3. AJOUTER DES PERMISSIONS POUR LE RÔLE CLIENT
+-- ============================================
+INSERT INTO permissions (role, module, action) VALUES
+                                                   ('client', 'vehicules', 'read'),
+                                                   ('client', 'demandes', 'create'),
+                                                   ('client', 'demandes', 'read');
+
+-- ============================================
+-- 4. AJOUTER DES PERMISSIONS POUR GÉRER LES DEMANDES
+-- ============================================
+INSERT INTO permissions (role, module, action) VALUES
+                                                   ('vendeur', 'demandes', 'read'),
+                                                   ('vendeur', 'demandes', 'update'),
+                                                   ('admin', 'demandes', 'create'),
+                                                   ('admin', 'demandes', 'read'),
+                                                   ('admin', 'demandes', 'update'),
+                                                   ('admin', 'demandes', 'delete');
+
+-- ============================================
+-- 5. DONNÉES DE TEST - DEMANDES D'ACHAT
+-- ============================================
+INSERT INTO demandes_achat (vehicule_id, nom, prenom, email, telephone, message, statut, created_at) VALUES
+                                                                                                         (1, 'Dubois', 'Antoine', 'antoine.dubois@email.com', '0612345678', 'Je suis très intéressé par ce véhicule. Possibilité de négocier le prix ?', 'en_attente', NOW() - INTERVAL 2 DAY),
+                                                                                                         (3, 'Lambert', 'Sarah', 'sarah.lambert@email.com', '0623456789', 'Bonjour, j\'aimerais faire un essai de ce véhicule. Disponible ce week-end ?', 'en_cours', NOW() - INTERVAL 1 DAY),
+(5, 'Robert', 'Michel', 'michel.robert@email.com', '0634567890', 'Véhicule toujours disponible ? Possibilité de reprise ?', 'en_attente', NOW() - INTERVAL 3 HOUR);
+
 
 -- ============================================
 -- INFORMATIONS DE CONNEXION

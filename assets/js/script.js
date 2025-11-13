@@ -1,5 +1,34 @@
 // Animation au chargement
 document.addEventListener('DOMContentLoaded', function() {
+    const userToggle = document.querySelector('.nav-user-toggle');
+    const dropdown = document.getElementById('userDropdown');
+
+    if (userToggle && dropdown) {
+        const closeDropdown = () => {
+            dropdown.classList.remove('show');
+            userToggle.setAttribute('aria-expanded', 'false');
+        };
+
+        userToggle.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const isExpanded = userToggle.getAttribute('aria-expanded') === 'true';
+            userToggle.setAttribute('aria-expanded', String(!isExpanded));
+            dropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!dropdown.contains(event.target) && !userToggle.contains(event.target)) {
+                closeDropdown();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && dropdown.classList.contains('show')) {
+                closeDropdown();
+            }
+        });
+    }
+
     // Animation des cartes
     const cards = document.querySelectorAll('.card, .stat-card');
     cards.forEach((card, index) => {

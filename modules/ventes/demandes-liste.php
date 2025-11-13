@@ -1,13 +1,8 @@
 <?php
-session_start();
-require_once '../../config/auth.php';
-require_once '../../config/database.php';
+$page_title = "Demandes d'achat";
+include '../../includes/header.php';
 
-// Vérifier les permissions (vendeur ou admin)
-if (!in_array($_SESSION['role'], ['vendeur', 'admin'])) {
-    header('Location: ../../acces-refuse.php');
-    exit();
-}
+requirePermission('demandes', 'read');
 
 // Récupérer les filtres
 $filtre_statut = isset($_GET['statut']) ? $_GET['statut'] : '';
@@ -51,213 +46,203 @@ while ($row = $stats_result->fetch()) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Demandes d'Achat - PGI Automobile</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <style>
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+<style>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
 
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.3s;
-            border-left: 4px solid;
-        }
+    .stat-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: transform 0.3s;
+        border-left: 4px solid;
+    }
 
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
+    .stat-card:hover {
+        transform: translateY(-3px);
+    }
 
-        .stat-card.en_attente {
-            border-left-color: #f59e0b;
-        }
+    .stat-card.en_attente {
+        border-left-color: #f59e0b;
+    }
 
-        .stat-card.en_cours {
-            border-left-color: #3b82f6;
-        }
+    .stat-card.en_cours {
+        border-left-color: #3b82f6;
+    }
 
-        .stat-card.acceptee {
-            border-left-color: #10b981;
-        }
+    .stat-card.acceptee {
+        border-left-color: #10b981;
+    }
 
-        .stat-card.refusee {
-            border-left-color: #ef4444;
-        }
+    .stat-card.refusee {
+        border-left-color: #ef4444;
+    }
 
-        .stat-card.finalisee {
-            border-left-color: #6b7280;
-        }
+    .stat-card.finalisee {
+        border-left-color: #6b7280;
+    }
 
-        .stat-card h3 {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-        }
+    .stat-card h3 {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+    }
 
-        .stat-card .number {
-            font-size: 36px;
-            font-weight: bold;
-            color: #333;
-        }
+    .stat-card .number {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+    }
 
-        .filters {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+    .filters {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-        .filters h3 {
-            margin-bottom: 15px;
-        }
+    .filters h3 {
+        margin-bottom: 15px;
+    }
 
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+    .filter-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
 
-        .filter-btn {
-            padding: 8px 20px;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-        }
+    .filter-btn {
+        padding: 8px 20px;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+    }
 
-        .filter-btn:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
+    .filter-btn:hover {
+        border-color: #667eea;
+        background: #f0f4ff;
+    }
 
-        .filter-btn.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
+    .filter-btn.active {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
 
-        .demandes-table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+    .demandes-table {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        th {
-            background: #f8f9fa;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #333;
-            border-bottom: 2px solid #e0e0e0;
-        }
+    th {
+        background: #f8f9fa;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #333;
+        border-bottom: 2px solid #e0e0e0;
+    }
 
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #f0f0f0;
-        }
+    td {
+        padding: 15px;
+        border-bottom: 1px solid #f0f0f0;
+    }
 
-        tr:hover {
-            background: #f8f9fa;
-        }
+    tr:hover {
+        background: #f8f9fa;
+    }
 
-        .badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+    .badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
 
-        .badge-en_attente {
-            background: #fef3c7;
-            color: #d97706;
-        }
+    .badge-en_attente {
+        background: #fef3c7;
+        color: #d97706;
+    }
 
-        .badge-en_cours {
-            background: #dbeafe;
-            color: #1e40af;
-        }
+    .badge-en_cours {
+        background: #dbeafe;
+        color: #1e40af;
+    }
 
-        .badge-acceptee {
-            background: #d1fae5;
-            color: #065f46;
-        }
+    .badge-acceptee {
+        background: #d1fae5;
+        color: #065f46;
+    }
 
-        .badge-refusee {
-            background: #fee2e2;
-            color: #991b1b;
-        }
+    .badge-refusee {
+        background: #fee2e2;
+        color: #991b1b;
+    }
 
-        .badge-finalisee {
-            background: #e5e7eb;
-            color: #374151;
-        }
+    .badge-finalisee {
+        background: #e5e7eb;
+        color: #374151;
+    }
 
-        .action-btn {
-            padding: 6px 15px;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 13px;
-            transition: background 0.3s;
-        }
+    .action-btn {
+        padding: 6px 15px;
+        background: #667eea;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 13px;
+        transition: background 0.3s;
+    }
 
-        .action-btn:hover {
-            background: #5568d3;
-        }
+    .action-btn:hover {
+        background: #5568d3;
+    }
 
-        .vehicule-info {
-            font-weight: 600;
-            color: #333;
-        }
+    .vehicule-info {
+        font-weight: 600;
+        color: #333;
+    }
 
-        .client-info {
-            color: #666;
-            font-size: 14px;
-        }
+    .client-info {
+        color: #666;
+        font-size: 14px;
+    }
 
-        .date-info {
-            color: #999;
-            font-size: 13px;
-        }
+    .date-info {
+        color: #999;
+        font-size: 13px;
+    }
 
-        .no-data {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
+    .no-data {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
 
-        .no-data h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-<?php include '../../includes/header.php'; ?>
+    .no-data h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+</style>
 
 <div class="container">
     <div class="page-header">
@@ -405,5 +390,3 @@ while ($row = $stats_result->fetch()) {
 </div>
 
 <?php include '../../includes/footer.php'; ?>
-</body>
-</html>

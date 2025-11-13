@@ -2,6 +2,8 @@
 $page_title = "Liste des ventes";
 include '../../includes/header.php';
 
+requirePermission('ventes', 'read');
+
 // Filtres
 $filtre_mois = isset($_GET['mois']) ? $_GET['mois'] : date('Y-m');
 
@@ -34,7 +36,9 @@ $ventes = $stmt->fetchAll();
 <div class="card">
     <div class="card-header">
         <h2 class="card-title">💰 Gestion des Ventes</h2>
-        <a href="ajouter.php" class="btn btn-primary">➕ Nouvelle vente</a>
+        <?php if (hasPermission('ventes', 'create')): ?>
+            <a href="ajouter.php" class="btn btn-primary">➕ Nouvelle vente</a>
+        <?php endif; ?>
     </div>
     
     <!-- Filtre par mois -->

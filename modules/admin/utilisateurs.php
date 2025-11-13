@@ -82,6 +82,12 @@ $stats_roles = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         <div class="stat-value"><?php echo $stats_roles['comptable'] ?? 0; ?></div>
         <div class="stat-label">Comptables</div>
     </div>
+
+    <div class="stat-card" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);">
+        <div class="stat-icon">🧑‍💼</div>
+        <div class="stat-value"><?php echo $stats_roles['rh'] ?? 0; ?></div>
+        <div class="stat-label">Responsables RH</div>
+    </div>
 </div>
 
 <!-- Liste des utilisateurs -->
@@ -107,26 +113,15 @@ $stats_roles = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
             </thead>
             <tbody>
                 <?php foreach ($utilisateurs as $user): 
-                    $role_class = '';
-                    $role_icon = '';
-                    switch($user['role']) {
-                        case 'admin':
-                            $role_class = 'role-admin';
-                            $role_icon = '👑';
-                            break;
-                        case 'vendeur':
-                            $role_class = 'role-vendeur';
-                            $role_icon = '💼';
-                            break;
-                        case 'gestionnaire_stock':
-                            $role_class = 'role-gestionnaire';
-                            $role_icon = '📦';
-                            break;
-                        case 'comptable':
-                            $role_class = 'role-comptable';
-                            $role_icon = '💰';
-                            break;
-                    }
+                    $roleClassMap = [
+                        'admin' => 'role-admin',
+                        'vendeur' => 'role-vendeur',
+                        'gestionnaire_stock' => 'role-gestionnaire',
+                        'comptable' => 'role-comptable',
+                        'rh' => 'role-rh'
+                    ];
+                    $role_class = $roleClassMap[$user['role']] ?? '';
+                    $role_icon = getRoleIcon($user['role']);
                 ?>
                 <tr>
                     <td><strong>#<?php echo $user['id']; ?></strong></td>

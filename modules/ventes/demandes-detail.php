@@ -3,35 +3,71 @@ session_start();
 require_once '../../config/auth.php';
 require_once '../../config/database.php';
 
-// Vérifier les permissions (vendeur ou admin)
-if (!in_array($_SESSION['role'], ['vendeur', 'admin'])) {
-    header('Location: ../../acces-refuse.php');
-    exit();
-}
+
+$page_title = "Détail demande";
+include '../../includes/header.php';
+
+requirePermission('demandes', 'read');
 
 $demande_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$canUpdate = hasPermission('demandes', 'update');
 
 // Traitement du formulaire de mise à jour
 $success = false;
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!$canUpdate) {
+        requirePermission('demandes', 'update');
+    }
+
     $nouveau_statut = $_POST['statut'];
     $notes_gestionnaire = trim($_POST['notes_gestionnaire']);
 
-    // Mettre à jour la demande
-    $update_query = "UPDATE demandes_achat 
-                     SET statut = ?, 
-                         notes_gestionnaire = ?, 
-                         traitee_par = ?,
-                         date_traitement = NOW()
-                     WHERE id = ?";
-    $stmt = $pdo->prepare($update_query);
+    $pdo->beginTransaction();
 
-    if ($stmt->execute([$nouveau_statut, $notes_gestionnaire, $_SESSION['user_id'], $demande_id])) {
+    try {
+        $update_query = "UPDATE demandes_achat 
+                         SET statut = ?, 
+                             notes_gestionnaire = ?, 
+                             traitee_par = ?,
+                             date_traitement = NOW()
+                         WHERE id = ?";
+        $stmt = $pdo->prepare($update_query);
+        $stmt->execute([$nouveau_statut, $notes_gestionnaire, $_SESSION['user_id'], $demande_id]);
+
+        // Ajuster le statut du véhicule associé selon l'avancement
+        $vehiculeStmt = $pdo->prepare("SELECT vehicule_id FROM demandes_achat WHERE id = ?");
+        $vehiculeStmt->execute([$demande_id]);
+        $vehicule_id = $vehiculeStmt->fetchColumn();
+
+        if ($vehicule_id) {
+            $vehiculeStatus = null;
+            switch ($nouveau_statut) {
+                case 'acceptee':
+                case 'en_cours':
+                    $vehiculeStatus = 'reserve';
+                    break;
+                case 'finalisee':
+                    $vehiculeStatus = 'vendu';
+                    break;
+                case 'refusee':
+                case 'en_attente':
+                    $vehiculeStatus = 'stock';
+                    break;
+            }
+
+            if ($vehiculeStatus !== null) {
+                $vehiculeUpdate = $pdo->prepare("UPDATE vehicules SET statut = ? WHERE id = ?");
+                $vehiculeUpdate->execute([$vehiculeStatus, $vehicule_id]);
+            }
+        }
+
+        $pdo->commit();
         $success = true;
-    } else {
-        $error = "Erreur lors de la mise à jour.";
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        $error = "Erreur lors de la mise à jour : " . $e->getMessage();
     }
 }
 
@@ -40,7 +76,8 @@ $query = "SELECT da.*,
           v.marque, v.modele, v.annee, v.couleur, v.kilometrage, 
           v.prix_vente, v.carburant, v.type_vehicule, v.immatriculation,
           u.nom as gestionnaire_nom, u.prenom as gestionnaire_prenom,
-          c.nom as client_nom, c.prenom as client_prenom
+          c.nom as client_nom, c.prenom as client_prenom,
+          c.email as client_email, c.telephone as client_telephone
           FROM demandes_achat da
           INNER JOIN vehicules v ON da.vehicule_id = v.id
           LEFT JOIN utilisateurs u ON da.traitee_par = u.id
@@ -57,14 +94,7 @@ if (!$demande) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails Demande #<?php echo $demande_id; ?> - PGI Automobile</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <style>
+<style>
         .detail-container {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -354,9 +384,6 @@ if (!$demande) {
             }
         }
     </style>
-</head>
-<body>
-<?php include '../../includes/header.php'; ?>
 
 <div class="container">
     <a href="demandes-liste.php" class="back-button">← Retour à la liste</a>
@@ -556,5 +583,3 @@ if (!$demande) {
 </div>
 
 <?php include '../../includes/footer.php'; ?>
-</body>
-</html>

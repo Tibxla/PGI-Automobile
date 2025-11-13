@@ -61,23 +61,4 @@ INSERT INTO demandes_achat (vehicule_id, nom, prenom, email, telephone, message,
 (3, 'Lambert', 'Sarah', 'sarah.lambert@email.com', '0623456789', 'Bonjour, j\'aimerais faire un essai de ce véhicule. Disponible ce week-end ?', 'en_cours', NOW() - INTERVAL 1 DAY),
 (5, 'Robert', 'Michel', 'michel.robert@email.com', '0634567890', 'Véhicule toujours disponible ? Possibilité de reprise ?', 'en_attente', NOW() - INTERVAL 3 HOUR);
 
--- ============================================
--- VÉRIFICATION
--- ============================================
-SELECT 
-    '✅ TABLE DEMANDES_ACHAT CRÉÉE' as 'STATUT',
-    COUNT(*) as 'NOMBRE_DEMANDES'
-FROM demandes_achat;
 
-SELECT 
-    id,
-    CONCAT(prenom, ' ', nom) as 'Client',
-    email,
-    statut,
-    created_at as 'Date_demande'
-FROM demandes_achat
-ORDER BY created_at DESC;
-
--- ============================================
--- INSTALLATION TERMINÉE !
--- ============================================

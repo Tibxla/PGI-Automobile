@@ -10,6 +10,15 @@ requireRole('admin');
 $page_title = "Ajouter un utilisateur";
 $error = '';
 
+$roleOptions = getRoleOptions();
+$roleDescriptions = [
+    'vendeur' => "Gestion de la relation commerciale : clients, devis et ventes.",
+    'gestionnaire_stock' => "Supervision des mouvements de stock et des véhicules.",
+    'comptable' => "Suivi financier, facturation et rapports statistiques.",
+    'rh' => "Gestion du personnel, des congés et du pilotage RH.",
+    'admin' => "Accès complet à l'ensemble des modules et paramètres."
+];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
@@ -25,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Les mots de passe ne correspondent pas";
     } elseif (strlen($password) < 8) {
         $error = "Le mot de passe doit contenir au moins 8 caractères";
+    } elseif (!array_key_exists($role, $roleOptions)) {
+        $error = "Le rôle sélectionné n'est pas valide";
     } else {
         try {
             // Vérifier si l'email existe déjà
@@ -51,8 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
                 
                 // Redirection AVANT tout output HTML
-                header("Location: utilisateurs.php?success=1");
-                exit;
+                redirectTo('modules/admin/utilisateurs.php', ['success' => 1]);
             }
         } catch (PDOException $e) {
             $error = "Erreur lors de l'ajout : " . $e->getMessage();
@@ -121,25 +131,17 @@ include '../../includes/header.php';
         <div class="form-group">
             <label>Rôle *</label>
             <select name="role" class="form-control" required>
-                <option value="vendeur" <?php echo (isset($_POST['role']) && $_POST['role'] === 'vendeur') ? 'selected' : ''; ?>>
-                    💼 Vendeur
-                </option>
-                <option value="gestionnaire_stock" <?php echo (isset($_POST['role']) && $_POST['role'] === 'gestionnaire_stock') ? 'selected' : ''; ?>>
-                    📦 Gestionnaire de Stock
-                </option>
-                <option value="comptable" <?php echo (isset($_POST['role']) && $_POST['role'] === 'comptable') ? 'selected' : ''; ?>>
-                    💰 Comptable
-                </option>
-                <option value="admin" <?php echo (isset($_POST['role']) && $_POST['role'] === 'admin') ? 'selected' : ''; ?>>
-                    👑 Administrateur
-                </option>
+                <?php foreach ($roleOptions as $value => $label): ?>
+                    <option value="<?php echo $value; ?>" <?php echo (isset($_POST['role']) && $_POST['role'] === $value) ? 'selected' : ''; ?>>
+                        <?php echo getRoleIcon($value) . ' ' . $label; ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
-            <small style="color: #666;">
-                <strong>Vendeur :</strong> Peut gérer clients et ventes<br>
-                <strong>Gestionnaire :</strong> Peut gérer les véhicules et le stock<br>
-                <strong>Comptable :</strong> Accès lecture aux ventes et statistiques<br>
-                <strong>Admin :</strong> Accès total à toutes les fonctionnalités
-            </small>
+            <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                <?php foreach ($roleDescriptions as $roleKey => $description): ?>
+                    <p><strong><?php echo getRoleIcon($roleKey) . ' ' . $roleOptions[$roleKey]; ?> :</strong> <?php echo $description; ?></p>
+                <?php endforeach; ?>
+            </div>
         </div>
         
         <div style="text-align: center; margin-top: 2rem;">

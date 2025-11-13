@@ -2,6 +2,8 @@
 $page_title = "Liste des clients";
 include '../../includes/header.php';
 
+requirePermission('clients', 'read');
+
 $recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
 $message = '';
 $error = '';
@@ -44,7 +46,9 @@ $clients = $stmt->fetchAll();
 <div class="card">
     <div class="card-header">
         <h2 class="card-title">👥 Gestion des Clients</h2>
-        <a href="ajouter.php" class="btn btn-primary">➕ Ajouter un client</a>
+        <?php if (hasPermission('clients', 'create')): ?>
+            <a href="ajouter.php" class="btn btn-primary">➕ Ajouter un client</a>
+        <?php endif; ?>
     </div>
     
     <!-- Recherche -->
@@ -95,8 +99,12 @@ $clients = $stmt->fetchAll();
                             </td>
                             <td><?php echo formatDate($client['created_at']); ?></td>
                             <td>
-                                <a href="modifier.php?id=<?php echo $client['id']; ?>" class="btn btn-warning btn-sm">✏️</a>
-                                <a href="supprimer.php?id=<?php echo $client['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Confirmer la suppression ?')">🗑️</a>
+                                <?php if (hasPermission('clients', 'update')): ?>
+                                    <a href="modifier.php?id=<?php echo $client['id']; ?>" class="btn btn-warning btn-sm">✏️</a>
+                                <?php endif; ?>
+                                <?php if (hasPermission('clients', 'delete')): ?>
+                                    <a href="supprimer.php?id=<?php echo $client['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Confirmer la suppression ?')">🗑️</a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -10,8 +10,7 @@ $error = '';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($id <= 0) {
-    header("Location: utilisateurs.php");
-    exit;
+    redirectTo('modules/admin/utilisateurs.php');
 }
 
 // Récupération de l'utilisateur
@@ -20,9 +19,10 @@ $stmt->execute([$id]);
 $user = $stmt->fetch();
 
 if (!$user) {
-    header("Location: utilisateurs.php");
-    exit;
+    redirectTo('modules/admin/utilisateurs.php');
 }
+
+$roleOptions = getRoleOptions();
 
 // Empêcher de se modifier soi-même (sauf pour certains champs)
 $is_self = ($user['id'] === $_SESSION['user_id']);
@@ -43,6 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "L'email est obligatoire";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "L'email n'est pas valide";
+    } elseif (!array_key_exists($role, $roleOptions)) {
+        $error = "Le rôle sélectionné n'est pas valide";
     } elseif ($is_self && $statut !== 'actif') {
         $error = "Vous ne pouvez pas désactiver votre propre compte";
     } elseif ($is_self && $role !== 'admin') {
@@ -165,17 +167,7 @@ $activites = $stmt->fetchAll();
     </div>
     
     <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-        <div class="stat-icon">
-            <?php
-            $role_icons = [
-                'admin' => '👑',
-                'vendeur' => '💼',
-                'gestionnaire_stock' => '📦',
-                'comptable' => '💰'
-            ];
-            echo $role_icons[$user['role']] ?? '👤';
-            ?>
-        </div>
+        <div class="stat-icon"><?php echo getRoleIcon($user['role']); ?></div>
         <div class="stat-value"><?php echo getRoleLabel($user['role']); ?></div>
         <div class="stat-label">Rôle actuel</div>
     </div>
@@ -232,10 +224,11 @@ $activites = $stmt->fetchAll();
             <div class="form-group">
                 <label>Rôle</label>
                 <select name="role" class="form-control" <?php echo $is_self ? 'disabled' : ''; ?>>
-                    <option value="admin" <?php echo $user['role'] === 'admin' ? 'selected' : ''; ?>>👑 Administrateur</option>
-                    <option value="vendeur" <?php echo $user['role'] === 'vendeur' ? 'selected' : ''; ?>>💼 Vendeur</option>
-                    <option value="gestionnaire_stock" <?php echo $user['role'] === 'gestionnaire_stock' ? 'selected' : ''; ?>>📦 Gestionnaire Stock</option>
-                    <option value="comptable" <?php echo $user['role'] === 'comptable' ? 'selected' : ''; ?>>💰 Comptable</option>
+                    <?php foreach ($roleOptions as $value => $label): ?>
+                        <option value="<?php echo $value; ?>" <?php echo $user['role'] === $value ? 'selected' : ''; ?>>
+                            <?php echo getRoleIcon($value) . ' ' . $label; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
                 <?php if ($is_self): ?>
                     <input type="hidden" name="role" value="<?php echo $user['role']; ?>">

@@ -9,7 +9,7 @@ requireAuth();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accès refusé - PGI Automobile</title>
-    <link rel="stylesheet" href="/pgi-automobile/assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo appUrl('assets/css/style.css'); ?>">
     <style>
         .error-container {
             min-height: calc(100vh - 80px);
@@ -76,9 +76,9 @@ requireAuth();
             
             <div class="error-details">
                 <h4>Informations de votre compte :</h4>
-                <p><strong>Nom :</strong> <?php echo getFullName(); ?></p>
-                <p><strong>Rôle :</strong> <?php echo getRoleLabel(); ?></p>
-                <p><strong>Email :</strong> <?php echo $_SESSION['user_email'] ?? 'N/A'; ?></p>
+                <p><strong>Nom :</strong> <?php echo htmlspecialchars(getFullName()); ?></p>
+                <p><strong>Rôle :</strong> <?php echo htmlspecialchars(getRoleLabel()); ?></p>
+                <p><strong>Email :</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'N/A'); ?></p>
             </div>
             
             <p style="color: #666; margin-bottom: 2rem;">
@@ -86,7 +86,7 @@ requireAuth();
             </p>
             
             <div style="display: flex; gap: 1rem; justify-content: center;">
-                <a href="/pgi-automobile/index.php" class="btn btn-primary">
+                <a href="<?php echo appUrl('index.php'); ?>" class="btn btn-primary">
                     🏠 Retour à l'accueil
                 </a>
                 <a href="javascript:history.back()" class="btn btn-warning">

@@ -9,13 +9,121 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!function_exists('getBaseUrl')) {
+    function getBaseUrl(): string
+    {
+        static $baseUrl;
+        if ($baseUrl !== null) {
+            return $baseUrl;
+        }
+
+        if (defined('APP_BASE_URL')) {
+            $baseUrl = rtrim(APP_BASE_URL, '/');
+            return $baseUrl === '' ? '/' : $baseUrl;
+        }
+
+        $env = getenv('PGI_BASE_URL');
+        if ($env !== false && $env !== '') {
+            $baseUrl = rtrim($env, '/');
+            return $baseUrl === '' ? '/' : $baseUrl;
+        }
+
+        // Valeur par défaut adaptée au dépôt actuel
+        $baseUrl = '/pgi-automobile';
+        return $baseUrl;
+    }
+}
+
+if (!function_exists('appUrl')) {
+    function appUrl(string $path = ''): string
+    {
+        $base = rtrim(getBaseUrl(), '/');
+        $normalizedPath = '/' . ltrim($path, '/');
+
+        if ($base === '' || $base === '/') {
+            return $normalizedPath;
+        }
+
+        return $base . $normalizedPath;
+    }
+}
+
+if (!function_exists('redirectTo')) {
+    function redirectTo(string $path, array $query = []): void
+    {
+        $url = appUrl($path);
+        if (!empty($query)) {
+            $url .= (str_contains($url, '?') ? '&' : '?') . http_build_query($query);
+        }
+
+        header('Location: ' . $url);
+        exit;
+    }
+}
+
+const DEFAULT_ROLE_PERMISSIONS = [
+    'admin' => ['*' => ['*']],
+    'vendeur' => [
+        'vehicules' => ['read'],
+        'clients' => ['read', 'create', 'update'],
+        'ventes' => ['read', 'create', 'update'],
+        'demandes' => ['read', 'update'],
+        'stock' => ['read'],
+        'statistiques' => ['read']
+    ],
+    'gestionnaire_stock' => [
+        'vehicules' => ['read', 'create', 'update', 'delete'],
+        'stock' => ['read', 'update'],
+        'demandes' => ['read'],
+        'statistiques' => ['read']
+    ],
+    'comptable' => [
+        'ventes' => ['read'],
+        'comptabilite' => ['read', 'update'],
+        'statistiques' => ['read']
+    ],
+    'rh' => [
+        'rh' => ['read', 'create', 'update'],
+        'conges' => ['read', 'create', 'update'],
+        'paie' => ['read', 'create', 'update'],
+        'statistiques' => ['read']
+    ],
+    'client' => [
+        'catalogue' => ['read'],
+        'demandes' => ['create', 'read']
+    ]
+];
+
+function roleHasDefaultPermission(string $role, string $module, string $action): bool {
+    if ($role === 'admin') {
+        return true;
+    }
+
+    if (!isset(DEFAULT_ROLE_PERMISSIONS[$role])) {
+        return false;
+    }
+
+    $permissions = DEFAULT_ROLE_PERMISSIONS[$role];
+
+    if (isset($permissions['*'])) {
+        if (in_array('*', $permissions['*'], true) || in_array($action, $permissions['*'], true)) {
+            return true;
+        }
+    }
+
+    if (!isset($permissions[$module])) {
+        return false;
+    }
+
+    return in_array('*', $permissions[$module], true) || in_array($action, $permissions[$module], true);
+}
+
 /**
  * Vérifier si l'utilisateur est connecté
  */
 function requireAuth() {
     if (!isset($_SESSION['user_id'])) {
-        header("Location: /pgi-automobile/login.php?redirect=" . urlencode($_SERVER['REQUEST_URI']));
-        exit;
+        redirectTo('login.php', ['redirect' => $_SERVER['REQUEST_URI'] ?? appUrl()]);
     }
 }
 
@@ -29,9 +137,8 @@ function requireRole($roles) {
         $roles = [$roles];
     }
 
-    if (!in_array($_SESSION['role'], $roles)) {
-        header("Location: /pgi-automobile/acces-refuse.php");
-        exit;
+    if (!in_array($_SESSION['role'], $roles, true)) {
+        redirectTo('acces-refuse.php');
     }
 }
 
@@ -45,20 +152,29 @@ function hasPermission($module, $action) {
         return false;
     }
 
-    // L'admin a toutes les permissions
-    if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+    $role = $_SESSION['role'] ?? null;
+
+    if ($role === 'admin') {
         return true;
+    }
+
+    if ($role === null) {
+        return false;
     }
 
     try {
         $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM permissions WHERE role = ? AND module = ? AND action = ?");
-        $stmt->execute([$_SESSION['role'], $module, $action]);
+        $stmt->execute([$role, $module, $action]);
         $result = $stmt->fetch();
 
-        return $result['count'] > 0;
+        if (!empty($result['count'])) {
+            return true;
+        }
     } catch (PDOException $e) {
-        return false;
+        // En cas d'erreur, on se rabattra sur la configuration par défaut
     }
+
+    return roleHasDefaultPermission($role, $module, $action);
 }
 
 /**
@@ -84,10 +200,36 @@ function getRoleLabel($role = null) {
         'vendeur' => 'Vendeur',
         'gestionnaire_stock' => 'Gestionnaire de Stock',
         'comptable' => 'Comptable',
+        'rh' => 'Responsable RH',
         'client' => 'Client'
     ];
 
     return $labels[$role] ?? $role;
+}
+
+function getRoleIcon(string $role): string
+{
+    $icons = [
+        'admin' => '👑',
+        'vendeur' => '💼',
+        'gestionnaire_stock' => '📦',
+        'comptable' => '💰',
+        'rh' => '🧑‍💼',
+        'client' => '🙋'
+    ];
+
+    return $icons[$role] ?? '👤';
+}
+
+function getRoleOptions(): array
+{
+    return [
+        'admin' => getRoleLabel('admin'),
+        'vendeur' => getRoleLabel('vendeur'),
+        'gestionnaire_stock' => getRoleLabel('gestionnaire_stock'),
+        'comptable' => getRoleLabel('comptable'),
+        'rh' => getRoleLabel('rh')
+    ];
 }
 
 /**
@@ -124,8 +266,7 @@ function requirePermission($module, $action) {
     requireAuth();
 
     if (!hasPermission($module, $action)) {
-        header("Location: /pgi-automobile/acces-refuse.php");
-        exit;
+        redirectTo('acces-refuse.php');
     }
 }
 
@@ -135,22 +276,41 @@ function requirePermission($module, $action) {
 function getUserPermissions() {
     global $pdo;
 
-    if (!isset($_SESSION['role'])) {
+    $role = $_SESSION['role'] ?? null;
+
+    if ($role === null) {
         return [];
     }
 
-    // L'admin a toutes les permissions
-    if ($_SESSION['role'] === 'admin') {
+    if ($role === 'admin') {
         return ['all' => true];
     }
 
     try {
         $stmt = $pdo->prepare("SELECT module, action FROM permissions WHERE role = ?");
-        $stmt->execute([$_SESSION['role']]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute([$role]);
+        $permissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($permissions && count($permissions) > 0) {
+            return $permissions;
+        }
     } catch (PDOException $e) {
-        return [];
+        // On utilisera la configuration par défaut
     }
+
+    $defaults = DEFAULT_ROLE_PERMISSIONS[$role] ?? [];
+    $flatten = [];
+
+    foreach ($defaults as $module => $actions) {
+        if ($module === '*') {
+            continue;
+        }
+        foreach ($actions as $action) {
+            $flatten[] = ['module' => $module, 'action' => $action];
+        }
+    }
+
+    return $flatten;
 }
 
 /**

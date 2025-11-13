@@ -2,6 +2,8 @@
 $page_title = "Nouvelle vente";
 include '../../includes/header.php';
 
+requirePermission('ventes', 'create');
+
 $message = '';
 $error = '';
 

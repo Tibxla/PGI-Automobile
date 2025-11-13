@@ -11,8 +11,7 @@ $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
 if (!$user) {
-    header("Location: /pgi-automobile/logout.php");
-    exit;
+    redirectTo('logout.php');
 }
 
 // Traitement du formulaire
