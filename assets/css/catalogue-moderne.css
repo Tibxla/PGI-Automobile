@@ -1,0 +1,516 @@
+/* ===============================================
+   CATALOGUE MODERNE - DESIGN GLASSMORPHISM
+   Style ultra-moderne sans images de véhicules
+   =============================================== */
+
+/* ============= GRILLE VÉHICULES ============= */
+.vehicules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 35px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============= CARTE VÉHICULE MODERNE ============= */
+.vehicule-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.vehicule-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.vehicule-card:hover::before {
+    transform: scaleX(1);
+}
+
+.vehicule-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+}
+
+/* ============= HEADER DE CARTE (REMPLACE L'IMAGE) ============= */
+.vehicule-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 30px;
+    position: relative;
+    overflow: hidden;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Animation de fond */
+.vehicule-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: movePattern 20s linear infinite;
+}
+
+@keyframes movePattern {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(30px, 30px); }
+}
+
+/* Icône véhicule centrale */
+.vehicule-icon {
+    font-size: 80px;
+    margin-bottom: 15px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Titre dans le header */
+.vehicule-header-title {
+    color: white;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* ============= CORPS DE CARTE ============= */
+.vehicule-body {
+    padding: 30px;
+    background: white;
+}
+
+/* Tags en haut */
+.vehicule-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    animation: slideInLeft 0.5s ease-out 0.2s both;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.tag {
+    padding: 6px 14px;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.tag-type {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.tag-carburant {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+}
+
+.tag-annee {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+}
+
+/* ============= GRILLE INFO ============= */
+.vehicule-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 25px 0;
+    animation: slideInRight 0.5s ease-out 0.3s both;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.info-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.info-card:hover::before {
+    opacity: 1;
+}
+
+.info-icon {
+    font-size: 24px;
+    min-width: 24px;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.info-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* ============= PRIX ============= */
+.vehicule-price-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 25px -30px 25px -30px;
+    padding: 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.vehicule-price-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.03) 10px,
+        rgba(255,255,255,0.03) 20px
+    );
+    animation: moveDiagonal 20s linear infinite;
+}
+
+@keyframes moveDiagonal {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(20px, 20px); }
+}
+
+.price-label {
+    color: rgba(255,255,255,0.9);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.vehicule-price {
+    font-size: 36px;
+    font-weight: 800;
+    color: white;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.vehicule-price::before {
+    content: '💰';
+    font-size: 28px;
+}
+
+/* ============= BOUTON DEMANDE ============= */
+.btn-demande-wrapper {
+    animation: slideInUp 0.5s ease-out 0.4s both;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn-demande {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-demande::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-demande:hover::before {
+    left: 100%;
+}
+
+.btn-demande:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.btn-demande:active {
+    transform: translateY(-1px);
+}
+
+/* ============= BADGE DE STATUT ============= */
+.status-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255,255,255,0.95);
+    color: #667eea;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ============= FILTRES MODERNES ============= */
+.filters {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.filters h3 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    width: 100%;
+    transition: all 0.3s ease;
+    background: white;
+    font-size: 14px;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ============= MESSAGE VIDE ============= */
+.no-vehicules {
+    text-align: center;
+    padding: 80px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    grid-column: 1 / -1;
+}
+
+.no-vehicules::before {
+    content: '🚗';
+    font-size: 80px;
+    display: block;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.no-vehicules h2 {
+    color: #666;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.no-vehicules p {
+    color: #999;
+    font-size: 16px;
+}
+
+/* ============= ICÔNES PAR TYPE DE VÉHICULE ============= */
+.vehicule-icon[data-type="berline"]::after { content: '🚗'; }
+.vehicule-icon[data-type="suv"]::after { content: '🚙'; }
+.vehicule-icon[data-type="sportive"]::after { content: '🏎️'; }
+.vehicule-icon[data-type="citadine"]::after { content: '🚕'; }
+.vehicule-icon[data-type="utilitaire"]::after { content: '🚚'; }
+
+/* ============= RESPONSIVE ============= */
+@media (max-width: 768px) {
+    .vehicules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vehicule-icon {
+        font-size: 60px;
+    }
+
+    .vehicule-header-title {
+        font-size: 22px;
+    }
+
+    .vehicule-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vehicule-price {
+        font-size: 28px;
+    }
+
+    .filter-group {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============= ANIMATIONS SUPPLÉMENTAIRES ============= */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+.loading {
+    animation: shimmer 2s infinite;
+    background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-size: 1000px 100%;
+}
+
+/* Effet de survol sur toute la carte */
+.vehicule-card {
+    cursor: pointer;
+}
+
+.vehicule-card:active {
+    transform: translateY(-8px) scale(0.98);
+}

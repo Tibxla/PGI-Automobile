@@ -1,0 +1,47 @@
+# ===================================
+# GITIGNORE - PGI AUTOMOBILE
+# ===================================
+
+# Configuration locale
+config/database.php
+.env
+
+# Logs
+logs/*.log
+*.log
+
+# Fichiers temporaires
+tmp/*
+!tmp/.gitkeep
+
+# Uploads
+assets/images/uploads/*
+!assets/images/uploads/.gitkeep
+
+# Cache
+*.cache
+cache/
+
+# Composer
+vendor/
+composer.lock
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+.DS_Store
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Backup
+*.bak
+*.backup
+*.old
+
+# Database dumps
+*.sql.gz
+*.sql.zip
+backup_*.sql
