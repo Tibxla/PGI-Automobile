@@ -1,40 +1,42 @@
 # Cahier des Charges - PGI Automobile
 
-**Projet:** Progiciel de Gestion Intégré pour Concession Automobile
-**Version:** 1.0
+**Projet:** Progiciel de Gestion Intégré pour Concession Automobile (Projet Académique)
+**Version:** 1.0 (Projet Académique)
 **Date:** Novembre 2025
-**Statut:** Production Ready
+**Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
+**Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
+**Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
+**Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
 
 ---
 
-## 1. Contexte et Enjeux de l'Organisation
+## 1. Contexte et Enjeux du Projet
 
-### 1.1 Présentation de l'Entreprise
+### 1.1 Contexte Académique
 
-Le secteur de la distribution automobile fait face à des défis croissants :
-- Gestion complexe des stocks multi-marques
-- Suivi rigoureux des ventes et marges commerciales
-- Exigences réglementaires (traçabilité, conformité)
-- Attentes clients en matière de digitalisation
-- Coordination des équipes commerciales, administratives et RH
+Ce projet a été réalisé dans le cadre d'un devoir de Licence 3 sur une période de **3 semaines** (du 27 octobre au 17 novembre 2025) par **Thibaud THOMAS-LAMOTTE** et **Melissa BENZIDANE**.
+
+**Objectif pédagogique** : Concevoir et développer un système de gestion intégré pour démontrer nos compétences en :
+- Développement web (PHP/MySQL/HTML/CSS)
+- Modélisation de bases de données
+- Architecture logicielle
+- Gestion de projet
 
 ### 1.2 Problématiques Identifiées
 
-Avant la mise en place du PGI Automobile, les concessions rencontrent généralement :
+Les concessions automobiles rencontrent généralement :
 - **Dispersion des données** : fichiers Excel, logiciels métier non connectés
-- **Manque de visibilité** : difficulté à suivre en temps réel la performance commerciale
-- **Inefficacité opérationnelle** : saisies multiples, erreurs de synchronisation
+- **Manque de visibilité** : difficulté à suivre la performance commerciale
 - **Gestion RH manuelle** : paie, congés, suivi du personnel fragmentés
-- **Expérience client limitée** : absence de portail client pour demandes d'achat
+- **Expérience client limitée** : absence de portail en ligne
 
-### 1.3 Enjeux Stratégiques
+### 1.3 Enjeux du Système
 
 Le PGI Automobile répond aux enjeux suivants :
-- **Centralisation** : une source unique de vérité pour toutes les données métier
-- **Productivité** : automatisation des processus (calcul marges, mise à jour stocks, génération factures)
-- **Pilotage** : tableaux de bord en temps réel pour la direction
-- **Satisfaction client** : portail en ligne pour consultation catalogue et demandes
-- **Conformité** : traçabilité complète via système de logs
+- **Centralisation** : une base de données unique pour toutes les opérations
+- **Automatisation** : calculs automatiques (marges, paie, statistiques)
+- **Interface moderne** : design responsive et ergonomique
+- **Sécurité** : authentification et contrôle d'accès par rôles
 
 ---
 
@@ -176,54 +178,41 @@ Le PGI Automobile intègre **8 modules fonctionnels** :
 
 ---
 
-## 5. Contraintes Organisationnelles et Budgétaires
+## 5. Contraintes du Projet Académique
 
 ### 5.1 Équipe Projet
 
-| Rôle | Nombre | Responsabilités |
-|------|--------|-----------------|
-| **Chef de projet** | 1 | Coordination, planning, relation client |
-| **Développeur full-stack** | 2 | Développement PHP/MySQL/CSS/JS |
-| **Designer UI/UX** | 1 | Maquettes, charte graphique, ergonomie |
-| **Testeur QA** | 1 | Tests fonctionnels, rapports anomalies |
-| **Expert métier** | 1 | Validation règles de gestion, recette |
+| Rôle | Responsable | Responsabilités |
+|------|-------------|-----------------|
+| **Développeur Full-Stack** | Thibaud THOMAS-LAMOTTE | Backend PHP, Base de données MySQL, Architecture |
+| **Développeur Full-Stack** | Melissa BENZIDANE | Frontend HTML/CSS/JS, Design, Tests |
+| **Gestion de projet** | Les deux étudiants | Planning, coordination, documentation |
 
-### 5.2 Budget Prévisionnel
+### 5.2 Contraintes Temporelles
 
-| Poste | Montant Estimé |
-|-------|----------------|
-| Développement (400h × 50€) | 20 000 € |
-| Design UI/UX (80h × 45€) | 3 600 € |
-| Tests & Recette (60h × 40€) | 2 400 € |
-| Gestion de projet (100h × 60€) | 6 000 € |
-| **TOTAL Développement** | **32 000 €** |
-| Hébergement (1 an) | 300 € |
-| Licence SSL | 0 € (Let's Encrypt) |
-| Documentation & Formation | 2 000 € |
-| **TOTAL Global** | **34 300 €** |
-
-### 5.3 Délais
-
-- **Durée totale** : 4 mois (16 semaines)
-- **Date de début** : À définir
+- **Durée totale** : **3 semaines** (21 jours calendaires)
+- **Date de début** : 27 octobre 2025
+- **Date de fin** : 17 novembre 2025
 - **Jalons** :
-  - Mois 1 : Analyse + Conception
-  - Mois 2-3 : Développement + Tests
-  - Mois 4 : Recette + Déploiement
+  - Semaine 1 (27/10-03/11) : Conception + Setup + Modules de base
+  - Semaine 2 (04/11-10/11) : Développement modules principaux
+  - Semaine 3 (11/11-17/11) : Finalisation + Tests + Documentation
 
-### 5.4 Ressources et Compétences Requises
+### 5.3 Compétences Mobilisées
 
-**Compétences techniques** :
-- Maîtrise PHP orienté objet/procédural
-- Expertise MySQL (modélisation, optimisation)
-- HTML5/CSS3 moderne (Flexbox, Grid, variables CSS)
-- JavaScript vanilla (pas de framework requis)
-- Sécurité web (OWASP Top 10)
+**Compétences techniques développées** :
+- PHP natif (sans framework)
+- MySQL (modélisation, requêtes, optimisation)
+- HTML5/CSS3 (Flexbox, Grid, responsive design)
+- JavaScript vanilla
+- Sécurité web (PDO, bcrypt, RBAC)
+- Git pour le versioning
 
-**Compétences métier** :
-- Connaissance secteur automobile (cycle de vente, stock)
-- Comptabilité de base (marges, CA)
-- Gestion RH (paie, congés)
+**Compétences métier appliquées** :
+- Analyse des besoins métier
+- Modélisation de données (MCD/MLD)
+- Architecture logicielle
+- Gestion de projet agile
 
 ---
 
@@ -330,92 +319,67 @@ Le PGI Automobile intègre **8 modules fonctionnels** :
 
 ---
 
-## 8. Critères de Réussite
+## 8. Critères de Réussite du Projet
 
 ### 8.1 Critères Fonctionnels
 
-| Critère | Indicateur de Succès |
-|---------|----------------------|
-| **Complétude** | Les 8 modules sont développés et opérationnels |
-| **Précision calculs** | Marges, paie, statistiques calculées correctement (0% d'erreur) |
-| **Ergonomie** | Taux de satisfaction utilisateur > 80% (enquête post-formation) |
-| **Responsive** | Interface utilisable sur desktop, tablette, mobile |
+| Critère | Objectif |
+|---------|----------|
+| **Complétude** | Les 8 modules fonctionnels développés et opérationnels |
+| **Précision calculs** | Marges, paie, statistiques calculées correctement |
+| **Design** | Interface moderne et responsive |
+| **Navigation** | Ergonomie intuitive et cohérente |
 
 ### 8.2 Critères Techniques
 
-| Critère | Indicateur de Succès |
-|---------|----------------------|
-| **Performance** | Temps de chargement moyen < 2 secondes |
-| **Sécurité** | 0 vulnérabilité critique (audit OWASP) |
-| **Disponibilité** | Uptime > 99% hors maintenance planifiée |
-| **Qualité code** | Code commenté, PSR-12 respecté, pas de fonction > 100 lignes |
+| Critère | Objectif |
+|---------|----------|
+| **Architecture** | Code structuré, modulaire et maintenable |
+| **Sécurité** | PDO, bcrypt, RBAC, protection XSS |
+| **Performance** | Temps de chargement < 3 secondes |
+| **Qualité code** | Code commenté et documentation complète |
 
-### 8.3 Critères Projet
+### 8.3 Critères Académiques
 
-| Critère | Indicateur de Succès |
-|---------|----------------------|
-| **Délai** | Livraison dans les 4 mois |
-| **Budget** | Respect de l'enveloppe 34 300€ (±10%) |
-| **Recette** | PV de recette signé par expert métier |
-| **Documentation** | Manuel utilisateur, guide admin, doc technique livrés |
-| **Formation** | 100% utilisateurs formés (2 sessions de 4h) |
-
-### 8.4 Critères d'Acceptation Métier
-
-- Capacité à gérer une vente complète en < 5 minutes (saisie + génération facture)
-- Accès aux statistiques jour J en temps réel
-- Traitement d'une demande client en ligne en < 24h
-- Génération bulletin de paie en < 10 minutes par employé
-- Export données pour comptabilité externe (CSV)
+| Critère | Objectif |
+|---------|----------|
+| **Documentation technique** | Livrables complets et professionnels |
+| **Respect du planning** | Livraison dans les 3 semaines |
+| **Fonctionnalités** | Toutes les fonctionnalités clés implémentées |
+| **Démonstration** | Capacité à présenter et expliquer le système |
 
 ---
 
-## 9. Livrables Attendus
+## 9. Livrables du Projet
 
-| Livrable | Format | Destinataire |
-|----------|--------|--------------|
-| **Code source** | Repository Git | Équipe technique |
-| **Base de données** | Script SQL + dump | Administrateur système |
-| **Manuel utilisateur** | PDF + Markdown | Utilisateurs finaux |
-| **Guide administrateur** | PDF + Markdown | Administrateur système |
-| **Documentation technique** | Markdown | Développeurs/mainteneurs |
-| **Maquettes/Wireframes** | Figma / PNG | Chef de projet |
-| **Jeux de données de test** | SQL | Testeurs / Formation |
-| **Guide d'installation** | Markdown | Administrateur système |
-| **Rapports de tests** | PDF / Excel | Chef de projet |
-| **PV de recette** | PDF signé | Direction / Client |
+| Livrable | Format |
+|----------|--------|
+| **Code source complet** | Repository Git |
+| **Base de données** | Script SQL avec données de test |
+| **Documentation technique** | 20 livrables Markdown (7 phases SI) |
+| **Guide d'installation** | Markdown |
+| **Manuel utilisateur** | Markdown |
+| **Présentation du projet** | Support de soutenance |
 
 ---
 
-## 10. Contraintes et Risques Identifiés
+## 10. Risques et Contraintes
 
-### 10.1 Contraintes
+### 10.1 Contraintes du Projet
 
-- **Absence de framework** : développement from scratch, pas de scaffolding
-- **Budget limité** : pas de marge pour extensions majeures
-- **Équipe réduite** : dépendance forte sur développeurs clés
-- **Délai serré** : 4 mois pour 8 modules
+- **Délai très court** : 3 semaines pour 8 modules fonctionnels
+- **Équipe réduite** : 2 étudiants polyvalents
+- **Absence de framework** : développement PHP natif
+- **Contraintes académiques** : respect du cahier des charges pédagogique
 
-### 10.2 Risques Projet
+### 10.2 Risques Identifiés
 
-| Risque | Probabilité | Impact | Mitigation |
-|--------|-------------|--------|------------|
-| Dérive fonctionnelle | Moyenne | Élevé | Geler périmètre après phase analyse |
-| Complexité sous-estimée | Moyenne | Élevé | Prototypage rapide en semaine 2 |
-| Indisponibilité développeur | Faible | Critique | Documentation code + binômage |
-| Bug sécurité critique | Faible | Critique | Audit code + tests de pénétration |
-| Incompatibilité navigateur | Faible | Moyen | Tests cross-browser dès maquettes |
-
----
-
-## 11. Validation et Approbation
-
-| Rôle | Nom | Signature | Date |
-|------|-----|-----------|------|
-| **Maîtrise d'ouvrage** | | | |
-| **Chef de projet** | | | |
-| **Expert métier** | | | |
-| **Responsable technique** | | | |
+| Risque | Mitigation |
+|--------|------------|
+| **Manque de temps** | Priorisation des fonctionnalités essentielles |
+| **Complexité technique** | Démarrage rapide, prototypage itératif |
+| **Bugs** | Tests réguliers, validation continue |
+| **Charge de travail** | Répartition équitable, entraide |
 
 ---
 
