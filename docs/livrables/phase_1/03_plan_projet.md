@@ -1,7 +1,7 @@
 # Plan de Projet - PGI Automobile
 
 **Projet:** Progiciel de Gestion Intégré pour Concession Automobile (Projet Académique)
-**Version:** 1.0 (Projet Académique)
+**Version:** 1.0
 **Date:** Novembre 2025
 **Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
 **Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
@@ -97,7 +97,49 @@ Semaine 1 (27/10-03/11)   Semaine 2 (04/11-10/11)   Semaine 3 (11/11-17/11)
 └─────────────────────┘   └─────────────────────┘   └─────────────────────┘
 ```
 
-### 3.2 Sprint 1 : Fondations (27/10 - 03/11)
+### 3.2 Diagramme de Gantt - Planning du Projet
+
+```mermaid
+gantt
+    title Planning PGI Automobile - Projet L3 (3 semaines)
+    dateFormat YYYY-MM-DD
+
+    section Sprint 1 - Fondations
+    Analyse & Conception          :done,    s1a, 2025-10-27, 2d
+    Setup Environnement           :done,    s1b, 2025-10-28, 1d
+    Module Authentication         :done,    s1c, 2025-10-29, 2d
+    Module Véhicules (CRUD)       :done,    s1d, 2025-10-30, 2d
+    Module Clients                :done,    s1e, 2025-10-31, 1d
+
+    section Sprint 2 - Développement
+    Module Ventes                 :active,  s2a, 2025-11-04, 1d
+    Module Demandes d'Achat       :         s2b, 2025-11-05, 1d
+    Module RH - Personnel         :         s2c, 2025-11-06, 1d
+    Module RH - Paie & Congés     :         s2d, 2025-11-07, 1d
+    Module Stock & Statistiques   :         s2e, 2025-11-08, 1d
+    Module Administration         :         s2f, 2025-11-09, 2d
+
+    section Sprint 3 - Finalisation
+    Tests Complets                :         s3a, 2025-11-11, 2d
+    Corrections Bugs              :         s3b, 2025-11-12, 1d
+    Polish UI & Performance       :         s3c, 2025-11-13, 1d
+    Documentation (Phase 1-4)     :         s3d, 2025-11-14, 1d
+    Documentation (Phase 5-7)     :         s3e, 2025-11-15, 1d
+    Préparation Présentation      :         s3f, 2025-11-16, 2d
+
+    section Jalons
+    Jalon 1 - BDD & Auth OK       :milestone, m1, 2025-11-03, 0d
+    Jalon 2 - Modules Complets    :milestone, m2, 2025-11-10, 0d
+    Jalon 3 - Livraison Finale    :milestone, m3, 2025-11-17, 0d
+```
+
+**Légende** :
+- ✅ **Done** : Tâches complétées
+- 🔵 **Active** : Tâche en cours
+- ⬜ **À venir** : Tâches planifiées
+- 🎯 **Milestone** : Jalon majeur du projet
+
+### 3.3 Sprint 1 : Fondations (27/10 - 03/11)
 
 #### Objectif
 Mettre en place les fondations du projet et développer les modules de base.
