@@ -5,8 +5,6 @@
 **Date:** Novembre 2025
 **Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
 **Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
-**Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
-**Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
 
 ---
 
