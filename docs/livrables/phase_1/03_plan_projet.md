@@ -3,7 +3,7 @@
 **Projet:** Progiciel de Gestion Intégré pour Concession Automobile (Projet Académique)
 **Version:** 1.0
 **Date:** Novembre 2025
-**Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
+**Auteurs:** Thibaud & Melissa
 **Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
 
 ---
@@ -12,7 +12,7 @@
 
 ### 1.1 Contexte du Projet
 
-Ce plan de projet détaille l'organisation et le planning du développement du **PGI Automobile**, réalisé dans le cadre d'un devoir de Licence 3 par **Thibaud THOMAS-LAMOTTE** et **Melissa BENZIDANE** sur une période de **3 semaines** (du 27 octobre au 17 novembre 2025).
+Ce plan de projet détaille l'organisation et le planning du développement du **PGI Automobile**, réalisé dans le cadre d'un devoir de Licence 3 par **Thibaud** et **Melissa** sur une période de **3 semaines** (du 27 octobre au 17 novembre 2025).
 
 ### 1.2 Objectifs du Projet
 
@@ -46,8 +46,8 @@ Ce plan de projet détaille l'organisation et le planning du développement du *
 
 | Membre | Rôle | Responsabilités Principales |
 |--------|------|---------------------------|
-| **Thibaud THOMAS-LAMOTTE** | Développeur Full-Stack | • Architecture système<br>• Backend PHP<br>• Base de données MySQL<br>• Sécurité (RBAC, PDO)<br>• Modules Auth, Ventes, Administration |
-| **Melissa BENZIDANE** | Développeur Full-Stack | • Frontend HTML/CSS/JavaScript<br>• Design UI/UX<br>• Responsive design<br>• Tests fonctionnels<br>• Modules Stock, Statistiques |
+| **Thibaud** | Développeur Full-Stack | • Architecture système<br>• Backend PHP<br>• Base de données MySQL<br>• Sécurité (RBAC, PDO)<br>• Modules Auth, Ventes, Administration |
+| **Melissa** | Développeur Full-Stack | • Frontend HTML/CSS/JavaScript<br>• Design UI/UX<br>• Responsive design<br>• Tests fonctionnels<br>• Modules Stock, Statistiques |
 | **Les deux** | Gestion de projet | • Planning et coordination<br>• Documentation technique<br>• Tests d'intégration<br>• Présentation finale |
 
 ### 2.2 Méthodologie de Travail
@@ -215,7 +215,7 @@ Tests, corrections, optimisations, documentation complète et préparation de la
 
 ### 4.1 Modules par Développeur
 
-#### Thibaud THOMAS-LAMOTTE
+#### Thibaud
 
 | Module | Responsabilités | Complexité |
 |--------|----------------|------------|
@@ -227,7 +227,7 @@ Tests, corrections, optimisations, documentation complète et préparation de la
 | **RH (Paie)** | Calcul salaire automatique, bulletins | Élevée |
 | **Administration** | Gestion utilisateurs, logs | Moyenne |
 
-#### Melissa BENZIDANE
+#### Melissa
 
 | Module | Responsabilités | Complexité |
 |--------|----------------|------------|
@@ -417,7 +417,7 @@ Tests, corrections, optimisations, documentation complète et préparation de la
 
 ### 9.3 Engagement
 
-Nous, **Thibaud THOMAS-LAMOTTE** et **Melissa BENZIDANE**, nous engageons à :
+Nous, **Thibaud** et **Melissa**, nous engageons à :
 - Respecter le planning défini
 - Communiquer de manière transparente
 - Produire un travail de qualité professionnelle
@@ -429,7 +429,7 @@ Nous, **Thibaud THOMAS-LAMOTTE** et **Melissa BENZIDANE**, nous engageons à :
 **Date de livraison** : 17 novembre 2025
 
 **Auteurs** :
-- Thibaud THOMAS-LAMOTTE
-- Melissa BENZIDANE
+- Thibaud
+- Melissa
 
 **Fin du document**

@@ -3,7 +3,7 @@
 **Projet:** Progiciel de Gestion Intégré pour Concession Automobile (Projet Académique)
 **Version:** 1.0 (Projet Académique)
 **Date:** Novembre 2025
-**Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
+**Auteurs:** Thibaud & Melissa
 **Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
 
 ---
@@ -128,8 +128,8 @@ Le projet mobilise les compétences enseignées en L3 :
 
 | Membre | Rôle Principal | Responsabilités |
 |--------|---------------|-----------------|
-| **Thibaud THOMAS-LAMOTTE** | Développeur Full-Stack | Backend PHP, architecture, BDD, sécurité |
-| **Melissa BENZIDANE** | Développeur Full-Stack | Frontend HTML/CSS/JS, design, tests, documentation |
+| **Thibaud** | Développeur Full-Stack | Backend PHP, architecture, BDD, sécurité |
+| **Melissa** | Développeur Full-Stack | Frontend HTML/CSS/JS, design, tests, documentation |
 
 **Répartition du travail** :
 - Conception : ensemble
@@ -319,7 +319,7 @@ Le projet mobilise les compétences enseignées en L3 :
 **Date de validation** : 27 octobre 2025
 
 **Auteurs** :
-- Thibaud THOMAS-LAMOTTE
-- Melissa BENZIDANE
+- Thibaud
+- Melissa
 
 **Fin du document**

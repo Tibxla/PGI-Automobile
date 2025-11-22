@@ -13,7 +13,7 @@
 
 ---
 
-> **Note:** Ce document a été réalisé dans le cadre d'un projet académique de Licence 3 par **Thibaud THOMAS-LAMOTTE** et **Melissa BENZIDANE** sur la période du **27/10/2025 au 17/11/2025** (3 semaines).
+> **Note:** Ce document a été réalisé dans le cadre d'un projet académique de Licence 3 par **Thibaud** et **Melissa** sur la période du **27/10/2025 au 17/11/2025** (3 semaines).
 
 ## Table des Matières
 
@@ -682,4 +682,3 @@ Ce journal des modifications est mis à jour à chaque nouvelle version. Consult
 **Dernière mise à jour :** 17/11/2025
 **Auteur :** Équipe PGI Automobile
 
-**Prochaine mise à jour :** v1.1.0 - 15 février 2026

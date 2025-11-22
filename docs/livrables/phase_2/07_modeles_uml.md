@@ -3,7 +3,7 @@
 **Projet:** Progiciel de Gestion Intégré pour Concession Automobile
 **Version:** 1.0 (Projet Académique)
 **Date:** Novembre 2025
-**Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
+**Auteurs:** Thibaud & Melissa
 **Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
 **Statut:** Validé
 

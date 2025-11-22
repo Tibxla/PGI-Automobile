@@ -14,7 +14,7 @@
 
 ---
 
-> **Note:** Ce document a été réalisé dans le cadre d'un projet académique de Licence 3 par **Thibaud THOMAS-LAMOTTE** et **Melissa BENZIDANE** sur la période du **27/10/2025 au 17/11/2025** (3 semaines).
+> **Note:** Ce document a été réalisé dans le cadre d'un projet académique de Licence 3 par **Thibaud** et **Melissa** sur la période du **27/10/2025 au 17/11/2025** (3 semaines).
 
 ## Table des Matières
 

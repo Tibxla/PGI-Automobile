@@ -3,7 +3,7 @@
 **Projet:** Progiciel de Gestion Intégré pour Concession Automobile (Projet Académique)
 **Version:** 1.0 (Projet Académique)
 **Date:** Novembre 2025
-**Auteurs:** Thibaud THOMAS-LAMOTTE & Melissa BENZIDANE
+**Auteurs:** Thibaud  & Melissa 
 **Contexte:** Projet de L3 - Période du 27/10/2025 au 17/11/2025 (3 semaines)
 
 ---
@@ -12,7 +12,7 @@
 
 ### 1.1 Contexte Académique
 
-Ce projet a été réalisé dans le cadre d'un devoir de Licence 3 sur une période de **3 semaines** (du 27 octobre au 17 novembre 2025) par **Thibaud THOMAS-LAMOTTE** et **Melissa BENZIDANE**.
+Ce projet a été réalisé dans le cadre d'un devoir de Licence 3 sur une période de **3 semaines** (du 27 octobre au 17 novembre 2025) par **Thibaud** et **Melissa**.
 
 **Objectif pédagogique** : Concevoir et développer un système de gestion intégré pour démontrer nos compétences en :
 - Développement web (PHP/MySQL/HTML/CSS)
@@ -182,8 +182,8 @@ Le PGI Automobile intègre **8 modules fonctionnels** :
 
 | Rôle | Responsable | Responsabilités |
 |------|-------------|-----------------|
-| **Développeur Full-Stack** | Thibaud THOMAS-LAMOTTE | Backend PHP, Base de données MySQL, Architecture |
-| **Développeur Full-Stack** | Melissa BENZIDANE | Frontend HTML/CSS/JS, Design, Tests |
+| **Développeur Full-Stack** | Thibaud | Backend PHP, Base de données MySQL, Architecture |
+| **Développeur Full-Stack** | Melissa | Frontend HTML/CSS/JS, Design, Tests |
 | **Gestion de projet** | Les deux étudiants | Planning, coordination, documentation |
 
 ### 5.2 Contraintes Temporelles
