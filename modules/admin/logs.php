@@ -99,16 +99,16 @@ $users = $pdo->query("SELECT id, nom, prenom FROM utilisateurs ORDER BY nom, pre
     <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
         <div class="stat-icon">❌</div>
         <div class="stat-value">
-            <?php echo isset($stats['echec_connexion']) ? number_format($stats['echec_connexion'][0]['count']) : 0; ?>
+            <?php echo isset($stats['tentative_echec']) ? number_format($stats['tentative_echec'][0]['count']) : 0; ?>
         </div>
         <div class="stat-label">Échecs (30j)</div>
     </div>
-    
+
     <div class="stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
         <div class="stat-icon">🔒</div>
         <div class="stat-value">
-            <?php 
-            $echecs = isset($stats['echec_connexion']) ? $stats['echec_connexion'][0]['count'] : 0;
+            <?php
+            $echecs = isset($stats['tentative_echec']) ? $stats['tentative_echec'][0]['count'] : 0;
             $connexions = isset($stats['connexion']) ? $stats['connexion'][0]['count'] : 1;
             echo number_format(($echecs / ($echecs + $connexions)) * 100, 1) . '%';
             ?>
@@ -130,7 +130,7 @@ $users = $pdo->query("SELECT id, nom, prenom FROM utilisateurs ORDER BY nom, pre
                 <option value="">-- Tous --</option>
                 <option value="connexion" <?php echo $type_filter === 'connexion' ? 'selected' : ''; ?>>✅ Connexion</option>
                 <option value="deconnexion" <?php echo $type_filter === 'deconnexion' ? 'selected' : ''; ?>>↩ Déconnexion</option>
-                <option value="echec_connexion" <?php echo $type_filter === 'echec_connexion' ? 'selected' : ''; ?>>❌ Échec</option>
+                <option value="tentative_echec" <?php echo $type_filter === 'tentative_echec' ? 'selected' : ''; ?>>❌ Échec</option>
             </select>
         </div>
         
@@ -223,7 +223,7 @@ $users = $pdo->query("SELECT id, nom, prenom FROM utilisateurs ORDER BY nom, pre
                                     $action_class = 'badge-reserve';
                                     $action_icon = '↩';
                                     $action_text = 'Déconnexion';
-                                } elseif ($log['action'] === 'echec_connexion') {
+                                } elseif ($log['action'] === 'tentative_echec') {
                                     $action_class = 'badge-vendu';
                                     $action_icon = '❌';
                                     $action_text = 'Échec connexion';

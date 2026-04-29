@@ -2,9 +2,11 @@
 # GITIGNORE - PGI AUTOMOBILE
 # ===================================
 
-# Configuration locale
-config/database.php
+# Configuration locale (en production, ne pas committer ces fichiers)
+# config/database.php est commité car il contient uniquement les valeurs par défaut de développement
+# En production, remplacer les valeurs directement dans ce fichier (ne pas committer les credentials)
 .env
+config/config.php
 
 # Logs
 logs/*.log

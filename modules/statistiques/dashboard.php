@@ -124,8 +124,11 @@ $top_clients = $stmt->fetchAll();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($stats_mensuelles as $stat): 
-                        $mois_label = strftime('%B %Y', strtotime($stat['mois'] . '-01'));
+                    <?php
+                    $mois_fr = [1=>'Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+                    foreach ($stats_mensuelles as $stat):
+                        $mois_ts = strtotime($stat['mois'] . '-01');
+                        $mois_label = $mois_fr[(int) date('n', $mois_ts)] . ' ' . date('Y', $mois_ts);
                         $marge_pct = $stat['ca'] > 0 ? ($stat['marge_totale'] / ($stat['ca'] - $stat['marge_totale'])) * 100 : 0;
                     ?>
                         <tr>

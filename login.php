@@ -66,6 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 redirectTo('dashboard.php');
             } else {
                 $error = "Email ou mot de passe incorrect.";
+                // Logger la tentative échouée
+                $ip = $_SERVER['REMOTE_ADDR'];
+                $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+                $stmt = $pdo->prepare("INSERT INTO logs_connexion (utilisateur_id, action, ip_address, user_agent) VALUES (?, 'tentative_echec', ?, ?)");
+                $stmt->execute([$user['id'], $ip, $user_agent]);
             }
         } else {
             $error = "Email ou mot de passe incorrect.";

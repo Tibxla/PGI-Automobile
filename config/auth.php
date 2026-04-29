@@ -28,8 +28,9 @@ if (!function_exists('getBaseUrl')) {
             return $baseUrl === '' ? '/' : $baseUrl;
         }
 
-        // Valeur par défaut adaptée au dépôt actuel
-        $baseUrl = '/pgi-automobile';
+        // Valeur par défaut — adapter via la constante APP_BASE_URL ou la variable d'environnement PGI_BASE_URL
+        // Exemple : APP_BASE_URL = '/PGI-Automobile' (XAMPP) ou '' (serveur PHP intégré ou Nginx à la racine)
+        $baseUrl = '/PGI-Automobile';
         return $baseUrl;
     }
 }
